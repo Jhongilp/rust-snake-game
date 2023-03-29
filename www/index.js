@@ -1,5 +1,5 @@
-async function init() {
-  console.log("Hello");
-}
+import init, { greet } from "snake_game";
 
-init();
+init().then(() => {
+  greet("Jonathan");
+});
