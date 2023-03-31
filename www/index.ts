@@ -3,12 +3,13 @@ import init, { World } from "snake_game";
 init().then(() => {
   const CELL_SIZE = 20;
   const WORLD_WIDTH = 16;
-  const SNAKE_SPAWN_INDEX = 2; 
-  const world = World.new(WORLD_WIDTH, SNAKE_SPAWN_INDEX);
+  const snakeSpawnIndex = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
+  const world = World.new(WORLD_WIDTH, snakeSpawnIndex);
   const worldWidth = world.width();
 
-
-  const canvas = <HTMLCanvasElement> document.getElementById("snake-game-canvas");
+  const canvas = <HTMLCanvasElement>(
+    document.getElementById("snake-game-canvas")
+  );
   canvas.height = worldWidth * CELL_SIZE;
   canvas.width = worldWidth * CELL_SIZE;
   const ctx = canvas.getContext("2d");
