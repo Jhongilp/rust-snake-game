@@ -6,7 +6,7 @@ init().then(() => {
 
   const CELL_SIZE = 20;
 
-  const canvas = document.getElementById("snake-game-canvas");
+  const canvas = <HTMLCanvasElement> document.getElementById("snake-game-canvas");
   canvas.height = worldWidth * CELL_SIZE;
   canvas.width = worldWidth * CELL_SIZE;
   const ctx = canvas.getContext("2d");
