@@ -45,12 +45,13 @@ init().then(() => {
   }
 
   function update() {
+    const fps = 3;
     window.setTimeout(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       world.update();
       paint();
       requestAnimationFrame(update);
-    }, 100);
+    }, 1000 / fps);
   }
 
   paint();
