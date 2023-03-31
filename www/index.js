@@ -39,4 +39,11 @@ init().then(() => {
 
   drawWorld();
   drawSnake();
+  
+  window.setInterval(() => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawWorld();
+    drawSnake();
+    world.update();
+  }, 100)
 });
