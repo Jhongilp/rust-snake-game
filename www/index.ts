@@ -1,6 +1,6 @@
 import init, { World, Direction } from "snake_game";
 
-init().then(() => {
+init().then((wasm) => {
   const CELL_SIZE = 20;
   const WORLD_WIDTH = 16;
   const snakeSpawnIndex = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
@@ -14,9 +14,17 @@ init().then(() => {
   canvas.width = worldWidth * CELL_SIZE;
   const ctx = canvas.getContext("2d");
 
+  const snakeCellPtr = world.snake_cells();
+  const snakeLen = world.snake_length();
+
+  const snakeCells = new Uint32Array(
+    wasm.memory.buffer,
+    snakeCellPtr,
+    snakeLen
+  );
 
   document.addEventListener("keydown", (e) => {
-    switch(e.code) {
+    switch (e.code) {
       case "ArrowUp": {
         world.change_snake_dir(Direction.Up);
         break;
@@ -36,7 +44,7 @@ init().then(() => {
       default:
         return;
     }
-  })
+  });
 
   function drawWorld() {
     ctx.beginPath();
