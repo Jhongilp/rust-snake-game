@@ -68,7 +68,6 @@ impl World {
         self.snake.body.len()
     }
 
-   
     // cannot return a reference to JS due to borrowing rules
     // pub fn snake_cells(&self) -> Vec<SnakeCell> {
     //     self.snake.body
@@ -78,16 +77,20 @@ impl World {
         self.snake.body.as_ptr()
     }
 
-    pub fn update(&mut self) {
-        let snake_idx = self.snake_head_idx();
-        let (row, col) = (snake_idx / self.width, snake_idx % self.width);
+    pub fn step(&mut self) {
+        let next_cell = self.get_next_snake_cell();
+        self.snake.body[0] = next_cell;
+    }
 
-        let (row, col) = match self.snake.direction {
-            Direction::Right => (row, (col + 1) % self.width),
-            Direction::Left => (row, (col - 1) % self.width),
-            Direction::Up => ((row - 1) % self.width, col),
-            Direction::Down => ((row + 1) % self.width, col),
+    fn get_next_snake_cell(&self) -> SnakeCell {
+        let snake_idx = self.snake_head_idx();
+        let row = snake_idx / self.width;
+
+        return match self.snake.direction {
+            Direction::Right => SnakeCell((row * self.width) + (snake_idx + 1) % self.width),
+            Direction::Left => SnakeCell((row * self.width) + (snake_idx - 1) % self.width),
+            Direction::Up => SnakeCell((snake_idx - self.width) % self.size),
+            Direction::Down => SnakeCell((snake_idx + self.width) % self.size),
         };
-        self.snake.body[0].0 = (row * self.width) + col;
     }
 }
